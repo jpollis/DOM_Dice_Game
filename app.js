@@ -15,29 +15,31 @@ scores = [0,0];
 roundScore = 0;
 activePlayer = 0;
 
-//document.querySelector('#current-' + activePlayer).textContent = dice;
-//document.querySelector('#current-' + activePlayer).innerHTML = '<em>' + dice + '</em>';
+function noDice() {
+	document.querySelector('.dice').style.display = 'none';
+}
 
-//var global = document.querySelector('#score-0').textContent;
+function clearScore() {
+	document.getElementById('current-0').textContent = '0';
+	document.getElementById('current-1').textContent = '0';
+}
 
-document.querySelector('.dice').style.display = 'none';
+function clearGlobal() {
+	document.getElementById('score-0').textContent = '0';
+	document.getElementById('score-1').textContent = '0';
+}
 
-document.getElementById('score-0').textContent = '0';
-document.getElementById('score-1').textContent = '0';
-document.getElementById('current-0').textContent = '0';
-document.getElementById('current-1').textContent = '0';
+noDice();
+clearGlobal();
+clearScore();
 
 function nextPlayer() {
 	activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
 	roundScore = 0;
-	
-	document.getElementById('current-0').textContent = '0';
-	document.getElementById('current-1').textContent = '0';
-		
+	clearScore();
 	document.querySelector('.player-0-panel').classList.toggle('active');
 	document.querySelector('.player-1-panel').classList.toggle('active');
-		
-	document.querySelector('.dice').style.display = 'none';
+	noDice();
 }
 
 document.querySelector('.btn-roll').addEventListener('click', function() {
@@ -67,24 +69,10 @@ document.querySelector('.btn-hold').addEventListener("click", function() {
 	// update the UI
 	document.getElementById('score-' + activePlayer).textContent = scores[activePlayer];
 	
-	// check if the player won the game
-	
-	/* This is the way i did it
-	
-	var playerOneScore = document.getElementById('score-0').textContent;
-    var playerTwoScore = document.getElementById('score-1').textContent;
-	
-	if (playerOneScore >= 20) {
-		document.getElementById('name-0').innerHTML = "Winner!";
-	} else if (playerTwoScore >= 20) {
-		document.getElementById('name-1').innerHTML = "Winner!";
-	}
-	*/
-	
-	//This is the way the course did it
+    // determine the winner
 	if (scores[activePlayer] >= 20) {
 		document.querySelector('#name-' + activePlayer).textContent = 'Winner!';
-		document.querySelector('.dice').style.display = 'none';
+		noDice();
 		document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
 		document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
 	} else {
