@@ -66,15 +66,29 @@ document.querySelector('.btn-hold').addEventListener("click", function() {
 	
 	// update the UI
 	document.getElementById('score-' + activePlayer).textContent = scores[activePlayer];
-	nextPlayer();
 	
 	// check if the player won the game
+	
+	/* This is the way i did it
+	
 	var playerOneScore = document.getElementById('score-0').textContent;
     var playerTwoScore = document.getElementById('score-1').textContent;
-	if (playerOneScore >= 100) {
-		document.getElementById('name-0').innerHTML = "Player 1 wins!";
-	} else if (playerTwoScore >= 100) {
-		document.getElementById('name-1').innerHTML = "Player 2 wins!";
+	
+	if (playerOneScore >= 20) {
+		document.getElementById('name-0').innerHTML = "Winner!";
+	} else if (playerTwoScore >= 20) {
+		document.getElementById('name-1').innerHTML = "Winner!";
+	}
+	*/
+	
+	//This is the way the course did it
+	if (scores[activePlayer] >= 20) {
+		document.querySelector('#name-' + activePlayer).textContent = 'Winner!';
+		document.querySelector('.dice').style.display = 'none';
+		document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
+		document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
+	} else {
+		nextPlayer();
 	}
 });
 
