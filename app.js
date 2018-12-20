@@ -72,12 +72,21 @@ document.querySelector('.btn-hold').addEventListener("click", function() {
     // determine the winner
 	if (scores[activePlayer] >= 20) {
 		document.querySelector('#name-' + activePlayer).textContent = 'Winner!';
-		noDice();
 		document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
 		document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
+		document.querySelector('.btn-roll').disabled = true;
+		document.querySelector('.btn-hold').disabled = true;
+		noDice();
 	} else {
 		nextPlayer();
 	}
+});
+
+document.querySelector('.btn-new').addEventListener('click', function() {
+	scores = [0,0];
+	clearScore();
+	clearGlobal();
+	noDice();
 });
 
 
