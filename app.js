@@ -9,8 +9,8 @@ GAME RULES:
 
 */
 
-var scores, roundScores, activePlayer;
 
+var scores, roundScores, activePlayer;
 scores = [0,0];
 roundScore = 0;
 activePlayer = 0;
@@ -84,9 +84,15 @@ document.querySelector('.btn-hold').addEventListener("click", function() {
 
 document.querySelector('.btn-new').addEventListener('click', function() {
 	scores = [0,0];
+	roundScore = 0;
 	clearScore();
 	clearGlobal();
 	noDice();
+	document.querySelector('.btn-roll').disabled = false;
+	document.querySelector('.btn-hold').disabled = false;
+	document.querySelector('.player-' + activePlayer + '-panel').classList.remove('winner');
+	document.querySelector('#name-' + activePlayer).textContent = "Player " + (activePlayer + 1)
+	document.querySelector('.player-0-panel').classList.add('active');
 });
 
 
