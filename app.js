@@ -9,13 +9,14 @@ GAME RULES:
 
 */
 
-var scores, roundScore, activePlayer;
+var scores, roundScore, activePlayer, lastRoll, newRoll;
 
 function startGame() {
   // setting scores to 0
   scores = [0,0];
   roundScore = 0;
   activePlayer = 0;
+  lastRoll = [];
   
   // setting dice and scoreboard to 0
   noDice();
@@ -70,6 +71,7 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
 	// generate a random number
 	var dice = Math.floor(Math.random() * 6) + 1;
 	
+	lastRoll.unshift(dice);
 	// display result
 	var diceDOM = document.querySelector('.dice');
 	diceDOM.style.display = 'block';
@@ -83,6 +85,25 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
 		//change player
 		nextPlayer();
 	}
+	
+	
+/*
+	if (lastRoll === 2)  {
+		//add score
+		newRoll.push(dice);
+	}
+	
+	if (newRoll === lastRoll) {
+		clearGlobal();
+		nextPlayer();
+	}
+*/
+	console.log(lastRoll);
+	if (lastRoll[0] === 2 && lastRoll[1] === 2) {
+		document.getElementById('score-' + activePlayer).textContent = '0';
+		scores[activePlayer] = 0
+		nextPlayer();
+	}
 });
 
 
@@ -94,7 +115,7 @@ document.querySelector('.btn-hold').addEventListener("click", function() {
 	document.getElementById('score-' + activePlayer).textContent = scores[activePlayer];
 	
     // determine the winner
-	if (scores[activePlayer] >= 20) {
+	if (scores[activePlayer] >= 100) {
 		document.querySelector('#name-' + activePlayer).textContent = 'Winner!';
 		document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
 		document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
