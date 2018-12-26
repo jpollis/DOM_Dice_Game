@@ -9,7 +9,7 @@ GAME RULES:
 
 */
 
-var scores, roundScore, activePlayer, lastRoll, newRoll;
+var scores, roundScore, activePlayer, lastRoll, newRoll, userInputScore;
 
 function startGame() {
   // setting scores to 0
@@ -17,11 +17,14 @@ function startGame() {
   roundScore = 0;
   activePlayer = 0;
   lastRoll = [];
+  userInputScore = 0;
   
   // setting dice and scoreboard to 0
   noDice();
   clearScore();
   clearGlobal();
+  
+  document.querySelector('.user-input').style.visibility = 'visible';
   
   document.getElementById('name-0').textContent = 'Player 1';
   document.getElementById('name-1').textContent = 'Player 2';
@@ -67,6 +70,17 @@ function nextPlayer() {
 //Game Begins
 startGame();
 
+// disappear input placeholder on click
+document.querySelector('#user-score').addEventListener('click', function() {
+	document.querySelector('#user-score').placeholder = '';
+});
+
+// enter user generated score and disappear form on submit
+document.querySelector('.submit-score').addEventListener('click', function() {
+	userInputScore = document.querySelector('#user-score').value;
+	document.querySelector('.user-input').style.visibility = 'hidden';
+});
+
 document.querySelector('.btn-roll').addEventListener('click', function() {
 	// generate a random number
 	var dice = Math.floor(Math.random() * 6) + 1;
@@ -86,18 +100,6 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
 		nextPlayer();
 	}
 	
-	
-/*
-	if (lastRoll === 2)  {
-		//add score
-		newRoll.push(dice);
-	}
-	
-	if (newRoll === lastRoll) {
-		clearGlobal();
-		nextPlayer();
-	}
-*/
 	console.log(lastRoll);
 	if (lastRoll[0] === 2 && lastRoll[1] === 2) {
 		document.getElementById('score-' + activePlayer).textContent = '0';
@@ -115,7 +117,7 @@ document.querySelector('.btn-hold').addEventListener("click", function() {
 	document.getElementById('score-' + activePlayer).textContent = scores[activePlayer];
 	
     // determine the winner
-	if (scores[activePlayer] >= 100) {
+	if (scores[activePlayer] >= userInputScore) {
 		document.querySelector('#name-' + activePlayer).textContent = 'Winner!';
 		document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
 		document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
