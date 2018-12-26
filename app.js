@@ -16,7 +16,7 @@ function startGame() {
   scores = [0,0];
   roundScore = 0;
   activePlayer = 0;
-  lastRoll = [];
+  //lastRoll = [];
   userInputScore = 0;
   
   // setting dice and scoreboard to 0
@@ -85,13 +85,17 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
 	// generate a random number
 	var dice = Math.floor(Math.random() * 6) + 1;
 	
-	lastRoll.unshift(dice);
+	//lastRoll.unshift(dice);
 	// display result
 	var diceDOM = document.querySelector('.dice');
 	diceDOM.style.display = 'block';
 	diceDOM.src = 'dice-' + dice + '.png';
 	// If the score is not a 1, update round score
-	if (dice !== 1) {
+	if (dice === 6 && lastRoll === 6) {
+		document.getElementById('score-' + activePlayer).textContent = '0';
+		scores[activePlayer] = 0;
+		nextPlayer();
+	} else if (dice !== 1) {
 		//add score
 		roundScore += dice;
 		document.querySelector('#current-' + activePlayer).textContent = roundScore;
@@ -99,13 +103,15 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
 		//change player
 		nextPlayer();
 	}
-	
+	lastRoll = dice;
 	console.log(lastRoll);
-	if (lastRoll[0] === 2 && lastRoll[1] === 2) {
+	/*
+	if (lastRoll[0] === 6 && lastRoll[1] === 6) {
 		document.getElementById('score-' + activePlayer).textContent = '0';
 		scores[activePlayer] = 0
 		nextPlayer();
 	}
+	*/
 });
 
 
