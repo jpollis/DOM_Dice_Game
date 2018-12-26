@@ -9,20 +9,22 @@ GAME RULES:
 
 */
 
-var scores, roundScore, activePlayer, lastRoll, newRoll, userInputScore;
-
+var scores, roundScore, activePlayer, lastRoll, newRoll, userInput;
+	
 function startGame() {
   // setting scores to 0
   scores = [0,0];
   roundScore = 0;
   activePlayer = 0;
+  //winningScore = 20;
   //lastRoll = [];
-  userInputScore = 0;
   
   // setting dice and scoreboard to 0
   noDice();
   clearScore();
   clearGlobal();
+  
+  submitScore();
   
   document.querySelector('.user-input').style.visibility = 'visible';
   
@@ -40,8 +42,9 @@ function startGame() {
   document.querySelector('.player-0-panel').classList.add('active');
   
   // enabling roll and hold buttons
-  document.querySelector('.btn-roll').disabled = false;
-  document.querySelector('.btn-hold').disabled = false;
+  document.querySelector('.btn-roll').disabled = true;
+  document.querySelector('.btn-hold').disabled = true;
+
 }
 
 function noDice() {
@@ -67,21 +70,39 @@ function nextPlayer() {
 	noDice();
 }
 
+// submit user score
+function submitScore() {
+	document.querySelector('.submit-score').addEventListener('click', function() {
+		userInput = document.querySelector('#user-score').value;
+		document.querySelector('.user-input').style.visibility = 'hidden';
+		document.querySelector('.btn-roll').disabled = false;
+		document.querySelector('.btn-hold').disabled = false;
+		document.querySelector('.final-score').classList.add('hide-placeholder');
+	});
+}
+
+
 //Game Begins
 startGame();
 
-// disappear input placeholder on click
+// toggle input placeholder on click
 document.querySelector('#user-score').addEventListener('click', function() {
-	document.querySelector('#user-score').placeholder = '';
+	document.querySelector('.final-score').classList.toggle('hide-placeholder');
 });
 
-// enter user generated score and disappear form on submit
-document.querySelector('.submit-score').addEventListener('click', function() {
-	userInputScore = document.querySelector('#user-score').value;
-	document.querySelector('.user-input').style.visibility = 'hidden';
+document.querySelector('.player-0-panel').addEventListener('click', function() {
+	document.querySelector('.final-score').classList.toggle('hide-placeholder');
 });
+
+document.querySelector('.player-1-panel').addEventListener('click', function() {
+	document.querySelector('.final-score').classList.toggle('hide-placeholder');
+});
+
 
 document.querySelector('.btn-roll').addEventListener('click', function() {
+	// hide input field
+	document.querySelector('.user-input').style.visibility = 'hidden';
+	
 	// generate a random number
 	var dice = Math.floor(Math.random() * 6) + 1;
 	
@@ -122,8 +143,20 @@ document.querySelector('.btn-hold').addEventListener("click", function() {
 	// update the UI
 	document.getElementById('score-' + activePlayer).textContent = scores[activePlayer];
 	
+	
+	//check for user generated winning score
+	//var userInput = document.querySelector('#user-score').value;
+	var winningScore;
+	
+	if (userInput) {
+		winningScore = userInput;
+	} else {
+		winningScore = 20;
+	}
+
+	
     // determine the winner
-	if (scores[activePlayer] >= userInputScore) {
+	if (scores[activePlayer] >= winningScore) {
 		document.querySelector('#name-' + activePlayer).textContent = 'Winner!';
 		document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
 		document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
