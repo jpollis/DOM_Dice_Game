@@ -16,7 +16,6 @@ function startGame() {
   scores = [0,0];
   roundScore = 0;
   activePlayer = 0;
-  //winningScore = 20;
   //lastRoll = [];
   
   // setting dice and scoreboard to 0
@@ -24,6 +23,7 @@ function startGame() {
   clearScore();
   clearGlobal();
   
+  // activate start button functions
   submitScore();
   
   document.querySelector('.user-input').style.visibility = 'visible';
@@ -44,6 +44,21 @@ function startGame() {
   // enabling roll and hold buttons
   document.querySelector('.btn-roll').disabled = true;
   document.querySelector('.btn-hold').disabled = true;
+  
+  // toggle input placeholder on click
+	document.querySelector('#user-score').addEventListener('click', function() {
+		document.querySelector('.final-score').classList.toggle('hide-placeholder');
+	});
+
+
+	document.querySelector('.player-0-panel').addEventListener('click', function() {
+		document.querySelector('.final-score').classList.remove('hide-placeholder');
+	});
+
+
+	document.querySelector('.player-1-panel').addEventListener('click', function() {
+		document.querySelector('.final-score').classList.remove('hide-placeholder');
+	});
 
 }
 
@@ -78,25 +93,19 @@ function submitScore() {
 		document.querySelector('.btn-roll').disabled = false;
 		document.querySelector('.btn-hold').disabled = false;
 		document.querySelector('.final-score').classList.add('hide-placeholder');
+		
+		document.querySelector('.player-0-panel').addEventListener('click', function() {
+		document.querySelector('.final-score').classList.add('hide-placeholder');
+		});
+
+		document.querySelector('.player-1-panel').addEventListener('click', function() {
+		document.querySelector('.final-score').classList.add('hide-placeholder');
+		});
 	});
 }
 
-
 //Game Begins
 startGame();
-
-// toggle input placeholder on click
-document.querySelector('#user-score').addEventListener('click', function() {
-	document.querySelector('.final-score').classList.toggle('hide-placeholder');
-});
-
-document.querySelector('.player-0-panel').addEventListener('click', function() {
-	document.querySelector('.final-score').classList.toggle('hide-placeholder');
-});
-
-document.querySelector('.player-1-panel').addEventListener('click', function() {
-	document.querySelector('.final-score').classList.toggle('hide-placeholder');
-});
 
 
 document.querySelector('.btn-roll').addEventListener('click', function() {
@@ -143,7 +152,6 @@ document.querySelector('.btn-hold').addEventListener("click", function() {
 	// update the UI
 	document.getElementById('score-' + activePlayer).textContent = scores[activePlayer];
 	
-	
 	//check for user generated winning score
 	//var userInput = document.querySelector('#user-score').value;
 	var winningScore;
@@ -153,7 +161,6 @@ document.querySelector('.btn-hold').addEventListener("click", function() {
 	} else {
 		winningScore = 20;
 	}
-
 	
     // determine the winner
 	if (scores[activePlayer] >= winningScore) {
